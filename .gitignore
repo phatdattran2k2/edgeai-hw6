@@ -1,27 +1,42 @@
 # Python
 __pycache__/
 *.pyc
-.venv/
+*.pyo
 .pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# Coverage
 .coverage
 htmlcov/
-# PDM (only relevant if you do Step 0.4; harmless to include either way)
+coverage.xml
+
+# PDM
 .pdm-python
 .pdm-build/
 __pypackages__/
-# Build artifacts
-*.engine
-*.onnx
-7 / 52
+.venv/
+
 # IDE
 .vscode/
 .idea/
 *.swp
 .DS_Store
-# Local secrets
+
+# Secrets
 .env
-# PDM
-.pdm-python
-.pdm-build/
-__pypackages__/
-calibration/calibration_data/calibration/calibration_data/
+
+# Calibration data (too large)
+calibration/calibration_data/
+calibration/calibration_data.cache
+
+# Cache files
+best.cache
+*.cache
+
+# Engines — ignore FP16 baseline, keep INT8
+best.engine
+runs/
+
+# Old root-level file from Lab 12
+inference_node.py

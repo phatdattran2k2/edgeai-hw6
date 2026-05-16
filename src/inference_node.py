@@ -28,6 +28,26 @@ def write_health():
     except OSError:
         pass
 
+def preprocess_frame(frame: np.ndarray, target_size: tuple[int,int] = (320,320)) -> np.ndarray:
+    """Resize và normalize frame về (1, 3, H, W) float32."""
+    if frame.ndim == 2:  # grayscale
+        frame = np.stack([frame, frame, frame], axis=-1)
+    resized = cv2.resize(frame, target_size)
+    chw = resized.transpose(2, 0, 1).astype(np.float32) / 255.0
+    return chw[np.newaxis, ...]
+
+def apply_confidence_threshold(detections: list, threshold: float) -> list:
+    """Lọc detections theo confidence."""
+    return [d for d in detections if d["conf"] >= threshold]
+
+def detections_to_payload(frame_id: int, ts: float, detections: list) -> dict:
+    """Tạo MQTT JSON payload."""
+    return {"frame": frame_id, "ts": ts, "detections": detections}
+
+def _default_model_factory(path: str, task: str):  # pragma: no cover
+    from ultralytics import YOLO  # lazy import
+    return YOLO(path, task=task)
+
 def main():
     parser = argparse.ArgumentParser(description="YOLO26 TensorRT inference node")
     parser.add_argument("--model", default="/opt/models/best.engine")
