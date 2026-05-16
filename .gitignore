@@ -24,3 +24,4 @@ __pypackages__/
 .pdm-python
 .pdm-build/
 __pypackages__/
+calibration/calibration_data/calibration/calibration_data/

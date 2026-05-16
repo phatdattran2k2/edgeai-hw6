@@ -1,0 +1,22 @@
+path: calibration_data
+train: .
+val: .
+nc: 17
+names:
+  - Barricade
+  - Dumpster
+  - EXCAVATORS
+  - Gloves
+  - Hardhat
+  - Mask
+  - NO-Hardhat
+  - NO-Mask
+  - NO-Safety Vest
+  - Person
+  - Safety Net
+  - Safety Shoes
+  - Safety Vest
+  - dump truck
+  - mini-van
+  - truck
+  - wheel loader
