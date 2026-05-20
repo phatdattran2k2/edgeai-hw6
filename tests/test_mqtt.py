@@ -5,8 +5,10 @@
 
 import json
 from unittest.mock import MagicMock
+
 import paho.mqtt.client as mqtt
 import pytest
+
 from src.mqtt_publisher import MqttPublisher, PublisherConfig
 
 
@@ -72,9 +74,11 @@ def test_reconnect_delays_set(publisher: MqttPublisher, mock_client: MagicMock) 
     """Verify the publisher configured paho's exponential reconnect."""
     mock_client.reconnect_delay_set.assert_called_once()
 
+
 def test_connect_returns_false_on_timeout(mock_client: MagicMock) -> None:
     """connect() phải trả về False nếu timeout."""
     from src.mqtt_publisher import MqttPublisher, PublisherConfig
+
     pub = MqttPublisher(
         PublisherConfig(host="unreachable"),
         client_factory=lambda: mock_client,
@@ -87,17 +91,20 @@ def test_connect_returns_false_on_timeout(mock_client: MagicMock) -> None:
 def test_publish_dict_encodes_to_json(mock_client: MagicMock) -> None:
     """publish() với dict phải encode JSON đúng."""
     from src.mqtt_publisher import MqttPublisher, PublisherConfig
+
     pub = MqttPublisher(PublisherConfig(), client_factory=lambda: mock_client)
     pub._connected = True
     pub.publish("topic", {"key": "value", "num": 42})
     args, _ = mock_client.publish.call_args
     import json
+
     assert json.loads(args[1]) == {"key": "value", "num": 42}
 
 
 def test_publisher_config_defaults() -> None:
     """PublisherConfig defaults phải đúng."""
     from src.mqtt_publisher import PublisherConfig
+
     cfg = PublisherConfig()
     assert cfg.host == "localhost"
     assert cfg.port == 1883

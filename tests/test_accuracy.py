@@ -10,6 +10,7 @@ vs the FP16 baseline. Catches bad calibration before it lands on main.
 
 import json
 from pathlib import Path
+
 import pytest
 
 BASELINE = Path(__file__).parent.parent / "calibration" / "accuracy_baseline.json"
@@ -25,7 +26,7 @@ def test_int8_map50_within_threshold_of_fp16() -> None:
     data = json.loads(BASELINE.read_text())
     fp16: float = data["fp16_map50"]
     int8: float = data["int8_map50"]
-    
+
     drop = fp16 - int8
     assert drop <= MAP50_DROP_LIMIT, (
         f"INT8 mAP@50 dropped {drop:.4f} pts vs FP16 "
@@ -38,9 +39,9 @@ def test_baseline_has_required_fields() -> None:
     """Snapshot file must record provenance, not just numbers."""
     if not BASELINE.exists():
         pytest.skip("No baseline yet")
-        
+
     data = json.loads(BASELINE.read_text())
     required_keys = ("fp16_map50", "int8_map50", "test_split", "best_pt_md5")
-    
+
     for key in required_keys:
         assert key in data, f"accuracy_baseline.json missing {key!r}"

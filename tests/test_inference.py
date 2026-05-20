@@ -36,7 +36,8 @@ def test_preprocess_frame_outputs_expected_shape(
     out = preprocess_frame(frame, target_size=(320, 320))
     assert out.shape == (1, 3, 320, 320)
     assert out.dtype == np.float32
-    assert 0.0 <= out.min() and out.max() <= 1.0
+    assert out.min() >= 0.0
+    assert out.max() <= 1.0
 
 
 def test_preprocess_frame_handles_grayscale_input() -> None:
@@ -50,9 +51,9 @@ def test_preprocess_frame_handles_grayscale_input() -> None:
 @pytest.mark.parametrize(
     ("conf_thresh", "expected_count"),
     [
-        (0.0, 5),     # all detections pass
-        (0.5, 3),     # conf >= 0.5: 0.99, 0.75, 0.55
-        (0.995, 0),   # nothing meets near-perfect threshold (max is 0.99)
+        (0.0, 5),  # all detections pass
+        (0.5, 3),  # conf >= 0.5: 0.99, 0.75, 0.55
+        (0.995, 0),  # nothing meets near-perfect threshold (max is 0.99)
     ],
 )
 def test_apply_confidence_threshold(
@@ -131,8 +132,8 @@ def test_inference_node_process_results() -> None:
     node = InferenceNode()
 
     mock_box = MagicMock()
-    mock_box.cls = 0          # int, không phải [0]
-    mock_box.conf = 0.85      # float, không phải [0.85]
+    mock_box.cls = 0  # int, không phải [0]
+    mock_box.conf = 0.85  # float, không phải [0.85]
     mock_box.xyxy = [MagicMock(tolist=lambda: [10.0, 20.0, 30.0, 40.0])]
 
     mock_result = MagicMock()
@@ -157,9 +158,9 @@ def test_inference_node_process_empty_results() -> None:
 def test_inference_node_build_mqtt_client() -> None:
     """_build_mqtt_client phải connect và start loop."""
     node = InferenceNode()
-    with patch("src.inference_node.mqtt.Client") as MockClient:
+    with patch("src.inference_node.mqtt.Client") as mock_mqtt_client:
         mock = MagicMock()
-        MockClient.return_value = mock
+        mock_mqtt_client.return_value = mock
         node._build_mqtt_client()
         mock.connect.assert_called_once_with("localhost", 1883)
         mock.loop_start.assert_called_once()

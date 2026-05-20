@@ -9,6 +9,7 @@ Run on the Jetson once; commit best_int8.engine to the repo.
 
 import tempfile
 from pathlib import Path
+
 import yaml
 from ultralytics import YOLO
 
@@ -16,11 +17,12 @@ CAL_DATA = Path(__file__).parent / "calibration_data"
 YAML_TEMPLATE = Path(__file__).parent / "calibration.yaml"
 WEIGHTS = Path(__file__).parent.parent / "best.pt"
 OUT = Path(__file__).parent.parent / "best_int8.engine"
+_MIN_CAL_IMAGES = 50
 
 
 def main() -> None:
     """Run the INT8 calibration and export process."""
-    if not CAL_DATA.exists() or len(list(CAL_DATA.glob("*.jpg"))) < 50:
+    if not CAL_DATA.exists() or len(list(CAL_DATA.glob("*.jpg"))) < _MIN_CAL_IMAGES:
         raise SystemExit(f"Need >=50 calibration images at {CAL_DATA}")
 
     # Ultralytics' check_det_dataset() resolves YAML `path:` against its
