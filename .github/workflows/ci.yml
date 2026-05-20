@@ -72,7 +72,7 @@ jobs:
         with:
           python-version: "3.10"
           cache: pip
-      - run: pip install bandit==1.7.10 pip-audit==2.7.3 toml
+      - run: pip install "bandit[toml]==1.7.10" pip-audit==2.7.3
       - name: Bandit (Python SAST)
         run: bandit -r src/ -ll -c pyproject.toml
       - name: pip-audit (CVE scan)
