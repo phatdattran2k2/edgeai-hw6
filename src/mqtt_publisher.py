@@ -34,21 +34,19 @@ class MqttPublisher:
     inject a mock paho-mqtt Client without monkeypatching globals.
     """
 
-    def __init__(
-        self,
-        config: PublisherConfig,
-        client_factory: Optional[Callable[..., mqtt.Client]] = None,
-    ) -> None:
-        """Initialize the MQTT publisher with configuration and optional factory."""
+    def __init__(self, config: PublisherConfig,
+                client_factory=None):
         self.config = config
-        factory = client_factory or (
-            lambda: mqtt.Client(
-                callback_api_version=CallbackAPIVersion.VERSION2,
-                client_id=config.client_id,
-            )
-        )
+        factory = client_factory or (lambda: mqtt.Client(
+            callback_api_version=CallbackAPIVersion.VERSION2,
+            client_id=config.client_id,
+        ))
         self.client = factory()
-        # ... attach callbacks, set reconnect delays ...
+        # Thêm dòng này:
+        self.client.reconnect_delay_set(
+            config.reconnect_min_delay,
+            config.reconnect_max_delay,
+        )
         self._connected = False
 
     def connect(self, timeout: float = 5.0) -> bool:
