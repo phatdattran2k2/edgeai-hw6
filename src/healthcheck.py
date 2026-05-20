@@ -41,7 +41,7 @@ class HealthCheckServer:
 
     def start_in_thread(self) -> threading.Thread:
         """Start the healthz server on a daemon thread."""
-        server = HTTPServer(("0.0.0.0", self.port), _Handler)
+        server = HTTPServer(("0.0.0.0", self.port), _Handler)  # nosec B104 — intentional bind for container healthcheck
         t = threading.Thread(
             target=server.serve_forever, daemon=True, name="healthz",
         )
