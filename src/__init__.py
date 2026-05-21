@@ -1,1 +1,1 @@
-"""src — Edge-AI inference package for HW6."""
+"""EdgeAI HW6 package."""
