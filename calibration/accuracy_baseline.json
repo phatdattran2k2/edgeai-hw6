@@ -1,6 +1,6 @@
 {
   "fp16_map50": 0.3322,
-  "int8_map50": 0.3332,
+  "int8_map50": 0.2822,
   "test_split": "/home/jetson/AI-Topic-Colab/HW5_\u9673\u767c\u9054_\u694a\u744b\u7ae3/models/dataset (split=test, imgsz=320)",
   "calibrated_at": "2026-05-16",
   "best_pt_md5": "2c2b3ad8f7724f91f4c66c599131a1f3"
