@@ -81,7 +81,7 @@ Update at: <timestamp + 5min>
 
 ### Pipeline Diagram
 
-```mermaid
+```
 graph LR
     A[git push / PR] --> B[lint<br/>Ruff]
     B --> C[test<br/>pytest ≥90% cov]
@@ -277,8 +277,8 @@ GHCR image: `ghcr.io/phatdattran2k2/edgeai-hw6:v1.0.0` _(Part D)_
   `deploy/healthcheck.sh` _(Part D)_
 - deploy.sh sets nvpmodel →
   screenshot: `evidence/deploy-log-nvpmodel.png` _(Part D)_
-- /healthz reports power_mode from live nvpmodel -q →
-  `evidence/healthz-curl.png` _(Part D)_
+- /healthz reports power*mode from live nvpmodel -q →
+  `evidence/healthz-curl.png` *(Part D)\_
 
 ### Part E — Rollback Under 30 s (5 pts)
 
