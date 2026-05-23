@@ -13,7 +13,7 @@ import paho.mqtt.client as mqtt
 import pytest
 
 IMAGE = os.environ.get("IMAGE", "")
-SAMPLE_FRAME = Path(__file__).parent / "sample_frame.jpg"
+SAMPLE_FRAME = Path(__file__).parent / "test_video.mp4"
 MQTT_TOPIC = "/sense/vision/detections"
 BROKER = "localhost"
 CONTAINER_NAME = "hw6-integration-test"
