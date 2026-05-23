@@ -7,6 +7,7 @@ import json
 import threading
 import urllib.request
 from unittest.mock import patch
+
 import pytest
 
 from src.healthcheck import HealthCheckServer, _current_power_mode, start_in_thread
