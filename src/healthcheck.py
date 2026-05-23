@@ -3,6 +3,7 @@
 # Tatung University — I4210 AI實務專題
 """src/healthcheck.py — Minimal /healthz endpoint for the inference container."""
 from __future__ import annotations
+
 import json
 import os
 import re
