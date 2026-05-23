@@ -24,7 +24,7 @@ def _current_power_mode() -> str:
         with open("/etc/nvpmodel.conf") as f:
             conf = f.read()
         m = re.search(rf"<\s*POWER_MODEL\s+ID={mode_id}\s+NAME=(\S+)\s*>", conf)
-        return m.group(1) if m else mode_id
+        return m.group(1) if m else ""
     except (FileNotFoundError, ValueError):
         return ""
 
