@@ -24,9 +24,7 @@ def inference_container():
     """Start inference container, yield, cleanup."""
     assert IMAGE, "Set IMAGE env var to the GHCR image to test"
     assert SAMPLE_FRAME.exists(), f"Missing {SAMPLE_FRAME}"
-
     subprocess.run(["docker", "rm", "-f", CONTAINER_NAME], check=False)
-
     cmd = [
         "docker", "run", "-d",
         "--name", CONTAINER_NAME,
@@ -39,9 +37,7 @@ def inference_container():
     ]
     subprocess.run(cmd, check=True)
     time.sleep(30)
-
     yield CONTAINER_NAME
-
     subprocess.run(["docker", "stop", CONTAINER_NAME], check=False)
     subprocess.run(["docker", "rm", CONTAINER_NAME], check=False)
 
@@ -84,11 +80,8 @@ def test_inference_publishes_mqtt_within_window(
     client.connect(BROKER, 1883, 60)
     client.subscribe(MQTT_TOPIC)
     client.loop_start()
-
     got_message = received.wait(timeout=30)
-
     client.loop_stop()
     client.disconnect()
-
     assert got_message, f"No MQTT message on {MQTT_TOPIC} within 30s"
     assert len(messages) >= 1
