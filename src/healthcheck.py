@@ -16,20 +16,19 @@ MODEL_VERSION = os.environ.get("MODEL_VERSION", "unknown")
 
 
 def _current_power_mode() -> str:
-    """Read live nvpmodel state. Returns empty string if unavailable."""
+    """Read live power mode from bind-mounted nvpmodel files."""
     try:
-        out = subprocess.run(
-            ["nvpmodel", "-q"],
-            capture_output=True,
-            text=True,
-            timeout=2,
-        )
-        for line in out.stdout.splitlines():
-            if "Power Mode" in line:
-                return line.split(":", 1)[1].strip()
-    except (FileNotFoundError, subprocess.TimeoutExpired):
-        pass
-    return ""
+        with open("/var/lib/nvpmodel/status") as f:
+            content = f.read().strip()
+        # 格式是 pmode:0002，取出數字
+        mode_id = content.split(":")[-1].lstrip("0") or "0"
+        with open("/etc/nvpmodel.conf") as f:
+            conf = f.read()
+        import re
+        m = re.search(rf"<\s*POWER_MODEL\s+ID={mode_id}\s+NAME=(\S+)\s*>", conf)
+        return m.group(1) if m else mode_id
+    except (FileNotFoundError, ValueError):
+        return ""
 
 
 class HealthCheckServer:
