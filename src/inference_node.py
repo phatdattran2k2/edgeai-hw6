@@ -18,7 +18,10 @@ import numpy as np
 import paho.mqtt.client as mqtt
 from paho.mqtt.enums import CallbackAPIVersion
 
-import healthcheck
+try:
+    from src import healthcheck
+except ImportError:
+    import healthcheck  # type: ignore[no-redef]
 
 _running = True
 
