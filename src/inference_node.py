@@ -18,6 +18,8 @@ import numpy as np
 import paho.mqtt.client as mqtt
 from paho.mqtt.enums import CallbackAPIVersion
 
+from src import healthcheck
+
 _running = True
 
 
@@ -178,6 +180,7 @@ class InferenceNode:
 
 def main() -> None:  # pragma: no cover
     """CLI entry point."""
+    healthcheck.start_in_thread()
     parser = argparse.ArgumentParser(description="YOLO TensorRT inference node")
     parser.add_argument("--model", default="/opt/models/best.engine")
     parser.add_argument("--source", default="/opt/data/test_video.mp4")
