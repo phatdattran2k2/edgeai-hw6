@@ -2,12 +2,10 @@
 # Copyright (c) 2026 <Tên bạn và Wei-Chun>
 # Tatung University — I4210 AI實務專題
 """src/healthcheck.py — Minimal /healthz endpoint for the inference container."""
-
 from __future__ import annotations
-
 import json
 import os
-
+import re
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -24,7 +22,6 @@ def _current_power_mode() -> str:
         mode_id = content.split(":")[-1].lstrip("0") or "0"
         with open("/etc/nvpmodel.conf") as f:
             conf = f.read()
-        import re
         m = re.search(rf"<\s*POWER_MODEL\s+ID={mode_id}\s+NAME=(\S+)\s*>", conf)
         return m.group(1) if m else mode_id
     except (FileNotFoundError, ValueError):
