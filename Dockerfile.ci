@@ -32,7 +32,9 @@ RUN ORT_VER=$(python3 -c "import onnxruntime; print(onnxruntime.__version__)") &
 #     YOLO('best.pt', task='detect').export(format='engine', imgsz=320, half=True, opset=19)"
 
 # NEW — Dockerfile.ci, deferred engine compile
-COPY inference_node.py /app/
+COPY src/inference_node.py /app/
+COPY src/mqtt_publisher.py /app/
+COPY src/healthcheck.py /app/
 COPY entrypoint.sh /app/
 RUN chmod +x /app/entrypoint.sh && mkdir -p /opt/models
 COPY best.pt /opt/models/
