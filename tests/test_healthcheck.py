@@ -13,35 +13,40 @@ import pytest
 from src.healthcheck import HealthCheckServer, _current_power_mode, start_in_thread
 
 
+def test_current_power_mode_parses_output() -> None:
+    """Parses nvpmodel status file correctly."""
+    status_content = "pmode:0000"
+    conf_content = "< POWER_MODEL ID=0 NAME=15W >"
+    with patch("builtins.open", side_effect=[
+        __import__("io").StringIO(status_content),
+        __import__("io").StringIO(conf_content),
+    ]):
+        result = _current_power_mode()
+    assert result == "15W"
+
+
 def test_current_power_mode_no_nvpmodel() -> None:
-    """Returns empty string when nvpmodel not available (x86 CI)."""
-    with patch("subprocess.run", side_effect=FileNotFoundError):
+    """Returns empty string when status file not found."""
+    with patch("builtins.open", side_effect=FileNotFoundError):
         result = _current_power_mode()
     assert result == ""
 
 
 def test_current_power_mode_timeout() -> None:
-    """Returns empty string on timeout."""
-    import subprocess
-    with patch("subprocess.run", side_effect=subprocess.TimeoutExpired("nvpmodel", 2)):
+    """Returns empty string when status file not found."""
+    with patch("builtins.open", side_effect=FileNotFoundError):
         result = _current_power_mode()
     assert result == ""
 
 
-def test_current_power_mode_parses_output() -> None:
-    """Parses nvpmodel -q output correctly."""
-    mock_result = MagicMock()
-    mock_result.stdout = "NV Power Mode: 15W\nSome other line\n"
-    with patch("subprocess.run", return_value=mock_result):
-        result = _current_power_mode()
-    assert result == "15W"
-
-
 def test_current_power_mode_no_match() -> None:
-    """Returns empty string when output has no Power Mode line."""
-    mock_result = MagicMock()
-    mock_result.stdout = "Some unrelated output\n"
-    with patch("subprocess.run", return_value=mock_result):
+    """Returns empty string when conf has no matching mode."""
+    status_content = "pmode:0099"
+    conf_content = "< POWER_MODEL ID=0 NAME=15W >"
+    with patch("builtins.open", side_effect=[
+        __import__("io").StringIO(status_content),
+        __import__("io").StringIO(conf_content),
+    ]):
         result = _current_power_mode()
     assert result == ""
 
