@@ -209,13 +209,13 @@ What I would do differently next time: write `test_healthcheck.py` before writin
 
 ### Yang Wei-Chun (楊瑋竣)
 
-In HW6 I was primarily responsible for code review across the repository, Part D (writing `deploy/docker-compose.yml`, `deploy/power_profile.json`, `deploy/healthcheck.sh`, `deploy/deploy.sh`, and `.github/workflows/deploy.yml`), Part E (writing `deploy/rollback.sh` and the rollback demo in `evidence/rollback-demo.txt`), and Part F (authoring the README §"Operations", §"Architecture", §"Scaling to a Fleet", and §"Submission Evidence" sections).
+For HW6 I was responsible for code review, Part D, Part E, and Part F. On the deploy side I wrote `deploy/docker-compose.yml`, `deploy/power_profile.json`, `deploy/healthcheck.sh`, and `deploy/deploy.sh`, and configured `.github/workflows/deploy.yml` with the tag-triggered pipeline and production approval gate. For Part E I wrote `deploy/rollback.sh` and produced the rollback demo in `evidence/rollback-demo.txt`. For Part F I wrote the §"Operations", §"Architecture", §"Scaling to a Fleet", and §"Submission Evidence" sections of this README.
 
-The most challenging technical problem was a silent bug in `deploy.sh` where the jq query was written as `jq -r ".\"\$ENV\""`. The backslash-escaped `\$ENV` prevented the shell from expanding the variable before passing it to jq, so jq received the literal string `$ENV` and returned `null`. The symptom was that `MODE_ID` came back empty and the script exited with "power mode 'null' not found" — not an obvious jq quoting error. The fix was to switch to jq's `--arg` flag (`jq -r --arg env "$ENV" '.[$env]'`), which passes the shell variable as a named jq variable and avoids quoting ambiguity entirely.
+The hardest problem I ran into was a silent failure in `deploy.sh`: the jq filter was `jq -r ".\"\$ENV\""`, and because `\$` suppresses shell expansion, jq received the literal token `$ENV` instead of the value `production`. The script returned `null` for the power mode name and exited with "power mode 'null' not found in /etc/nvpmodel.conf" — an error that looked like a config problem, not a quoting bug. I traced it by printing the exact jq invocation and saw the unexpanded variable. The fix was to use jq's `--arg env "$ENV" '.[$env]'`, which keeps the filter pure jq and passes the shell value safely as a named argument.
 
-What I learned that I did not know before: the distinction between shell variable expansion happening *before* the string reaches jq versus jq's own variable binding mechanism. Passing runtime values via `--arg` is safer than embedding them in quoted jq filter strings, because the shell quoting rules and jq's parser interact in non-obvious ways.
+What I took away from this: never interpolate shell variables directly into jq filter strings. The `--arg` and `--argjson` flags exist precisely to bridge shell values into jq without touching the filter syntax.
 
-What I would do differently next time: add a smoke-test step that validates `deploy.sh` with a dry-run flag against all three power profiles before merging, so quoting bugs like this are caught in CI rather than during a live deploy run.
+Next time I would write a unit test for `deploy.sh` that exercises each power profile in `power_profile.json` before the script ever runs on hardware, so quoting issues like this surface in seconds rather than during a real deploy.
 
 ---
 
