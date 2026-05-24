@@ -4,6 +4,7 @@ _I4210 AI 實務專題, Tatung University_
 _Tran Phat Dat (陳發達) & Yang Wei-Chun (楊瑋竣)_
 
 [![CI](https://github.com/phatdattran2k2/edgeai-hw6/actions/workflows/ci.yml/badge.svg)](https://github.com/phatdattran2k2/edgeai-hw6/actions/workflows/ci.yml)
+[![Deploy](https://github.com/phatdattran2k2/edgeai-hw6/actions/workflows/deploy.yml/badge.svg)](https://github.com/phatdattran2k2/edgeai-hw6/actions/workflows/deploy.yml)
 [![Latest release](https://img.shields.io/github/v/release/phatdattran2k2/edgeai-hw6)](https://github.com/phatdattran2k2/edgeai-hw6/releases)
 
 ---
@@ -216,8 +217,8 @@ _[Wei-Chun to fill in after completing Part D, E, F — must address: (1) which 
 
 Repo: <https://github.com/phatdattran2k2/edgeai-hw6>
 Submission tag: `submission-final`
-Released tag: `v1.0.0` _(to be created in Part D)_
-GHCR image: `ghcr.io/phatdattran2k2/edgeai-hw6:v1.0.0` _(Part D)_
+Released tag: [`v1.0.0`](https://github.com/phatdattran2k2/edgeai-hw6/releases/tag/v1.0.0)
+GHCR image: `ghcr.io/phatdattran2k2/edgeai-hw6:v1.0.0`
 
 ### Part 0 — INT8 Calibration (10 pts)
 
@@ -266,26 +267,26 @@ GHCR image: `ghcr.io/phatdattran2k2/edgeai-hw6:v1.0.0` _(Part D)_
 
 ### Part D — Tag-Triggered Deploy (20 pts)
 
-- deploy.yml triggers on v*.*._ tags → `.github/workflows/deploy.yml` _(Part D — Wei-Chun)\*
+- deploy.yml triggers on v*.*.* tags → `.github/workflows/deploy.yml`
 - production environment with required reviewer →
-  screenshot: `evidence/production-env-settings.png` _(Part D)_
+  screenshot: `evidence/production-env-settings.png`
 - Re-tags as v1.0.0 / v1.0 / v1 / latest →
-  green deploy run: _(Part D)_
+  green deploy run: <https://github.com/phatdattran2k2/edgeai-hw6/actions/runs/26353218960/job/77575009043#step:6:11>
 - deploy.sh: pull → compose up → healthcheck → rollback-on-fail →
-  `deploy/deploy.sh` _(Part D)_
+  `deploy/deploy.sh`
 - healthcheck.sh: 3 consecutive successes within 60 s →
-  `deploy/healthcheck.sh` _(Part D)_
+  `deploy/healthcheck.sh`
 - deploy.sh sets nvpmodel →
-  screenshot: `evidence/deploy-log-nvpmodel.png` _(Part D)_
-- /healthz reports power*mode from live nvpmodel -q →
-  `evidence/healthz-curl.png` *(Part D)\_
+  screenshot: `evidence/deploy-log-nvpmodel.png`
+- /healthz reports power_mode from live `nvpmodel -q` →
+  `evidence/healthz-curl.png`
 
 ### Part E — Rollback Under 30 s (5 pts)
 
 - rollback.sh runs end-to-end <30 s →
-  recording: `evidence/rollback-demo.cast` _(Part E — Wei-Chun)_
+  recording: `evidence/rollback-demo.txt` (script -t log); wall time = **9.7 s**
 - State file maintains current + previous tag →
-  recording shows `cat /var/lib/edgeai-hw6/deployed.txt` before + after _(Part E)_
+  recording shows `deployed.txt` = `sha-e41e117` and history after rollback from `v1.0.0`
 - Rollback procedure (symptoms / command / recovery / comms) →
   README §"Operations" → "How to roll back" above
 

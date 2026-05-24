@@ -1,0 +1,85 @@
+Script started on 2026-05-24 14:26:58+08:00 [<not executed on terminal>]
+IMAGE
+ghcr.io/phatdattran2k2/edgeai-hw6:v1.0.0
+
+[rollback] Rolling back: v1.0.0 → sha-e41e117
+[1A[1B[0G[?25l[+] Running 0/1
+ [33m⠋[0m Container deploy-inference-1  Recreate[34m0.1s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠙[0m Container deploy-inference-1  Recreate[34m0.2s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠹[0m Container deploy-inference-1  Recreate[34m0.3s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠸[0m Container deploy-inference-1  Recreate[34m0.4s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠼[0m Container deploy-inference-1  Recreate[34m0.5s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠴[0m Container deploy-inference-1  Recreate[34m0.6s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠦[0m Container deploy-inference-1  Recreate[34m0.7s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠧[0m Container deploy-inference-1  Recreate[34m0.8s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠇[0m Container deploy-inference-1  Recreate[34m0.9s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠏[0m Container deploy-inference-1  Recreate[34m1.0s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠋[0m Container deploy-inference-1  Recreate[34m1.1s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠙[0m Container deploy-inference-1  Recreate[34m1.2s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠹[0m Container deploy-inference-1  Recreate[34m1.3s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠸[0m Container deploy-inference-1  Recreate[34m1.4s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠼[0m Container deploy-inference-1  Recreate[34m1.5s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠴[0m Container deploy-inference-1  Recreate[34m1.6s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠦[0m Container deploy-inference-1  Recreate[34m1.7s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠧[0m Container deploy-inference-1  Recreate[34m1.8s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠇[0m Container deploy-inference-1  Recreate[34m1.9s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠏[0m Container deploy-inference-1  Recreate[34m2.0s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠋[0m Container deploy-inference-1  Recreate[34m2.1s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠙[0m Container deploy-inference-1  Recreate[34m2.2s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠹[0m Container deploy-inference-1  Recreate[34m2.3s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠸[0m Container deploy-inference-1  Recreate[34m2.4s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠼[0m Container deploy-inference-1  Recreate[34m2.5s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠴[0m Container deploy-inference-1  Recreate[34m2.6s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠦[0m Container deploy-inference-1  Recreate[34m2.7s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠧[0m Container deploy-inference-1  Starting[34m2.8s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠇[0m Container deploy-inference-1  Starting[34m2.9s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠏[0m Container deploy-inference-1  Starting[34m3.0s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠋[0m Container deploy-inference-1  Starting[34m3.1s [0m
+[?25h[1A[1A[0G[?25l[+] Running 0/1
+ [33m⠙[0m Container deploy-inference-1  Starting[34m3.2s [0m
+[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
+ [32m✔[0m Container deploy-inference-1  [32mStarted[0m[34m3.3s [0m
+[?25h[healthcheck] OK (1/3): {"status": "healthy", "model_version": "sha-e41e117", "power_mode": "25W"}
+[healthcheck] OK (2/3): {"status": "healthy", "model_version": "sha-e41e117", "power_mode": "25W"}
+[healthcheck] OK (3/3): {"status": "healthy", "model_version": "sha-e41e117", "power_mode": "25W"}
+[rollback] Successfully rolled back to sha-e41e117
+
+real	0m9.698s
+user	0m0.269s
+sys	0m0.124s
+
+=== deployed.txt ===
+sha-e41e117
+=== deployed.txt.history ===
+
+Script done on 2026-05-24 14:27:08+08:00 [COMMAND_EXIT_CODE="0"]
