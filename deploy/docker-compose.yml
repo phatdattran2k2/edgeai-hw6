@@ -4,7 +4,7 @@
 # (deploy.sh exports it before invoking compose).
 services:
   inference:
-    image: ghcr.io/<your-team>/edgeai-hw6:${IMAGE_TAG}
+    image: ghcr.io/phatdattran2k2/edgeai-hw6:${IMAGE_TAG}
     runtime: nvidia
     restart: unless-stopped
     # /healthz on :8000 reachable from deploy host

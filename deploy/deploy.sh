@@ -19,7 +19,7 @@ STATE_DIR=/var/lib/edgeai-hw6
 mkdir -p "$STATE_DIR"
 
 # 1. Resolve the configured power-mode NAME → numeric ID for THIS Jetson SKU.
-MODE_NAME=$(jq -r ".\"\$ENV\"" deploy/power_profile.json)
+MODE_NAME=$(jq -r --arg env "$ENV" '.[$env]' deploy/power_profile.json)
 PAT="<\s*POWER_MODEL\s+ID=[0-9]+\s+NAME=$MODE_NAME\s*>"
 MODE_ID=$(grep -oE "$PAT" /etc/nvpmodel.conf \
           | grep -oE "ID=[0-9]+" | cut -d= -f2 | head -1)
