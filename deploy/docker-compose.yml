@@ -1,0 +1,32 @@
+# Copyright (c) 2026 <Your Name(s)>
+# Tatung University — I4210 AI實務專題
+# deploy/docker-compose.yml — image tag injected via $IMAGE_TAG env var
+# (deploy.sh exports it before invoking compose).
+services:
+  inference:
+    image: ghcr.io/<your-team>/edgeai-hw6:${IMAGE_TAG}
+    runtime: nvidia
+    restart: unless-stopped
+    # /healthz on :8000 reachable from deploy host
+    network_mode: host
+    volumes:
+      - lab12-models:/opt/models
+      # The test video carried from HW5 / Lab 9. Mounted read-only so
+      # multiple deploys can't accidentally truncate the source file.
+      # inference_node's --source defaults to /opt/data/test_video.mp4,
+      # and the loop seeks back to frame 0 on EOF — so a 15-s clip plays
+      # forever and the container stays alive for the deploy healthcheck.
+      - ../models/test_video.mp4:/opt/data/test_video.mp4:ro
+      # /healthz reads these two files directly to report the LIVE power
+      # mode. Read-only — the container can query but not change it.
+      - /var/lib/nvpmodel/status:/var/lib/nvpmodel/status:ro
+      - /etc/nvpmodel.conf:/etc/nvpmodel.conf:ro
+    environment:
+      MQTT_BROKER: localhost
+      MODEL_VERSION: ${IMAGE_TAG}
+    # No `command:` override — the Dockerfile's default CMD already
+    # runs inference_node with --source defaulting to the path above.
+
+volumes:
+  lab12-models:
+    external: true  # carried over from Lab 12 — engine cache persists
