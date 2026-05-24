@@ -209,7 +209,13 @@ What I would do differently next time: write `test_healthcheck.py` before writin
 
 ### Yang Wei-Chun (楊瑋竣)
 
-_[Wei-Chun to fill in after completing Part D, E, F — must address: (1) which parts you worked on with specific file names, (2) the most challenging technical problem solved with symptom/fix detail, (3) one concrete transferable thing learned, (4) one concrete change you would make next time. Length: 150–250 words.]_
+In HW6 I was primarily responsible for code review across the repository, Part D (writing `deploy/docker-compose.yml`, `deploy/power_profile.json`, `deploy/healthcheck.sh`, `deploy/deploy.sh`, and `.github/workflows/deploy.yml`), Part E (writing `deploy/rollback.sh` and the rollback demo in `evidence/rollback-demo.txt`), and Part F (authoring the README §"Operations", §"Architecture", §"Scaling to a Fleet", and §"Submission Evidence" sections).
+
+The most challenging technical problem was a silent bug in `deploy.sh` where the jq query was written as `jq -r ".\"\$ENV\""`. The backslash-escaped `\$ENV` prevented the shell from expanding the variable before passing it to jq, so jq received the literal string `$ENV` and returned `null`. The symptom was that `MODE_ID` came back empty and the script exited with "power mode 'null' not found" — not an obvious jq quoting error. The fix was to switch to jq's `--arg` flag (`jq -r --arg env "$ENV" '.[$env]'`), which passes the shell variable as a named jq variable and avoids quoting ambiguity entirely.
+
+What I learned that I did not know before: the distinction between shell variable expansion happening *before* the string reaches jq versus jq's own variable binding mechanism. Passing runtime values via `--arg` is safer than embedding them in quoted jq filter strings, because the shell quoting rules and jq's parser interact in non-obvious ways.
+
+What I would do differently next time: add a smoke-test step that validates `deploy.sh` with a dry-run flag against all three power profiles before merging, so quoting bugs like this are caught in CI rather than during a live deploy run.
 
 ---
 
